@@ -28,6 +28,9 @@ struct GlibUnref
     void operator() (gchar* str)
         { g_free(str); }
 
+    void operator() (GTlsInteraction* interaction)
+        { g_object_unref(interaction); }
+
     void operator() (GTlsCertificate* certificate)
         { g_object_unref(certificate); }
 };
@@ -60,6 +63,10 @@ typedef
     std::unique_ptr<
         gchar,
         GlibUnref> GCharPtr;
+typedef
+    std::unique_ptr<
+        GTlsInteraction,
+        GlibUnref> GTlsInteractionPtr;
 typedef
     std::unique_ptr<
         GTlsCertificate,
