@@ -27,6 +27,9 @@ struct GlibUnref
 
     void operator() (gchar* str)
         { g_free(str); }
+
+    void operator() (GTlsCertificate* certificate)
+        { g_object_unref(certificate); }
 };
 
 typedef
@@ -57,6 +60,10 @@ typedef
     std::unique_ptr<
         gchar,
         GlibUnref> GCharPtr;
+typedef
+    std::unique_ptr<
+        GTlsCertificate,
+        GlibUnref> GTlsCertificatePtr;
 
 
 struct GObjectWeakRef

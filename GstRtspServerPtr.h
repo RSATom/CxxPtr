@@ -20,9 +20,6 @@ struct GstRtspServerUnref
         { (*this)(G_OBJECT(auth)); }
     void operator() (GstRTSPToken* token)
         { gst_rtsp_token_unref(token); }
-
-    void operator() (GTlsCertificate* certificate)
-        { (*this)(G_OBJECT(certificate)); }
 };
 
 typedef
@@ -41,8 +38,3 @@ typedef
     std::unique_ptr<
         GstRTSPToken,
         GstRtspServerUnref> GstRTSPTokenPtr;
-
-typedef
-    std::unique_ptr<
-        GTlsCertificate,
-        GstRtspServerUnref> GTlsCertificatePtr;
