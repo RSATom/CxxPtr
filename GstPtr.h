@@ -2,11 +2,16 @@
 
 #include <memory>
 
+#include <gst/gst.h>
+
 
 struct GstUnref
 {
     void operator() (GObject* object)
         { gst_object_unref(object); }
+
+    void operator() (GstBus* bus)
+        { (*this)(G_OBJECT(bus)); }
 
     void operator() (GstCaps* caps)
         { gst_caps_unref(caps); }
@@ -19,9 +24,24 @@ struct GstUnref
 
     void operator() (GstPad* pad)
         { (*this)(G_OBJECT(pad)); }
+
+    void operator() (GstSample* sample)
+        { gst_sample_unref(sample); }
+
+    void operator() (GstBuffer* buffer)
+        { gst_buffer_unref(buffer); }
+
+    void operator() (GstSDPMessage* sdp)
+        { gst_sdp_message_free(sdp); }
+
+    void operator() (GstSDPMedia* media)
+        { gst_sdp_media_free(media); }
 };
 
-
+typedef
+    std::unique_ptr<
+        GstBus,
+        GstUnref> GstBusPtr;
 typedef
     std::unique_ptr<
         GstCaps,
@@ -38,3 +58,19 @@ typedef
     std::unique_ptr<
         GstPad,
         GstUnref> GstPadPtr;
+typedef
+    std::unique_ptr<
+        GstSample,
+        GstUnref> GstSamplePtr;
+typedef
+    std::unique_ptr<
+        GstBuffer,
+        GstUnref> GstBufferPtr;
+typedef
+    std::unique_ptr<
+        GstSDPMessage,
+        GstUnref> GstSDPMessagePtr;
+typedef
+    std::unique_ptr<
+        GstSDPMedia,
+        GstUnref> GstSDPMediaPtr;
