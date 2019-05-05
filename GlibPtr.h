@@ -2,7 +2,9 @@
 
 #include <memory>
 
+#include <glib-object.h>
 #include <glib.h>
+#include <gio/gio.h>
 
 
 struct GlibUnref
