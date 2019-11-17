@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <gst/gst.h>
+#include <gst/sdp/gstsdpmessage.h>
 
 
 struct GstUnref
