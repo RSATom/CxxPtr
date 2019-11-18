@@ -4,6 +4,7 @@
 
 #include <gst/gst.h>
 #include <gst/sdp/gstsdpmessage.h>
+#include <gst/gstpromise.h>
 
 
 struct GstUnref
@@ -37,6 +38,9 @@ struct GstUnref
 
     void operator() (GstSDPMedia* media)
         { gst_sdp_media_free(media); }
+
+    void operator() (GstPromise* promise)
+        { gst_promise_unref(promise); }
 };
 
 typedef
@@ -75,3 +79,7 @@ typedef
     std::unique_ptr<
         GstSDPMedia,
         GstUnref> GstSDPMediaPtr;
+typedef
+    std::unique_ptr<
+        GstPromise,
+        GstUnref> GstPromisePtr;
