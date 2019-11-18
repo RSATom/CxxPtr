@@ -5,6 +5,7 @@
 #include <gst/gst.h>
 #include <gst/sdp/gstsdpmessage.h>
 #include <gst/gstpromise.h>
+#include <gst/webrtc/rtcsessiondescription.h>
 
 
 struct GstUnref
@@ -41,6 +42,9 @@ struct GstUnref
 
     void operator() (GstPromise* promise)
         { gst_promise_unref(promise); }
+
+    void operator() (GstWebRTCSessionDescription* description)
+        { gst_webrtc_session_description_free(description); }
 };
 
 typedef
@@ -83,3 +87,7 @@ typedef
     std::unique_ptr<
         GstPromise,
         GstUnref> GstPromisePtr;
+typedef
+    std::unique_ptr<
+        GstWebRTCSessionDescription,
+        GstUnref> GstWebRTCSessionDescriptionPtr;
