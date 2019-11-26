@@ -45,6 +45,9 @@ struct GstUnref
 
     void operator() (GstWebRTCSessionDescription* description)
         { gst_webrtc_session_description_free(description); }
+
+    void operator() (GstWebRTCRTPTransceiver* transceiver)
+        { (*this)(G_OBJECT(transceiver)); }
 };
 
 typedef
@@ -91,3 +94,7 @@ typedef
     std::unique_ptr<
         GstWebRTCSessionDescription,
         GstUnref> GstWebRTCSessionDescriptionPtr;
+typedef
+    std::unique_ptr<
+        GstWebRTCRTPTransceiver,
+        GstUnref> GstWebRTCRTPTransceiverPtr;
