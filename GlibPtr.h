@@ -35,6 +35,9 @@ struct GlibUnref
 
     void operator() (GTlsCertificate* certificate)
         { g_object_unref(certificate); }
+
+    void operator() (GTimer* timer)
+        { g_timer_destroy(timer); }
 };
 
 typedef
@@ -73,6 +76,10 @@ typedef
     std::unique_ptr<
         GTlsCertificate,
         GlibUnref> GTlsCertificatePtr;
+typedef
+    std::unique_ptr<
+        GTimer,
+        GlibUnref> GTimerPtr;
 
 
 struct GObjectWeakRef
