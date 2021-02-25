@@ -4,6 +4,11 @@
 
 #include <glib-object.h>
 #include <glib.h>
+
+#if GLIB_CHECK_VERSION(2, 66, 0)
+    #include <glib/guri.h>
+#endif
+
 #include <gio/gio.h>
 
 
@@ -38,6 +43,11 @@ struct GlibUnref
 
     void operator() (GTimer* timer)
         { g_timer_destroy(timer); }
+
+#if GLIB_CHECK_VERSION(2, 66, 0)
+    void operator() (GUri* uri)
+        { g_uri_unref(uri); }
+#endif
 };
 
 typedef
@@ -80,6 +90,13 @@ typedef
     std::unique_ptr<
         GTimer,
         GlibUnref> GTimerPtr;
+
+#if GLIB_CHECK_VERSION(2, 66, 0)
+typedef
+    std::unique_ptr<
+        GUri,
+        GlibUnref> GUriPtr;
+#endif
 
 
 struct GObjectWeakRef
