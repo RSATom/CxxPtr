@@ -3,9 +3,6 @@
 #include <memory>
 
 #include <gst/gst.h>
-#include <gst/sdp/gstsdpmessage.h>
-#include <gst/gstpromise.h>
-#include <gst/webrtc/rtcsessiondescription.h>
 
 
 struct GstUnref
@@ -34,20 +31,6 @@ struct GstUnref
     void operator() (GstBuffer* buffer)
         { gst_buffer_unref(buffer); }
 
-    void operator() (GstSDPMessage* sdp)
-        { gst_sdp_message_free(sdp); }
-
-    void operator() (GstSDPMedia* media)
-        { gst_sdp_media_free(media); }
-
-    void operator() (GstPromise* promise)
-        { gst_promise_unref(promise); }
-
-    void operator() (GstWebRTCSessionDescription* description)
-        { gst_webrtc_session_description_free(description); }
-
-    void operator() (GstWebRTCRTPTransceiver* transceiver)
-        { (*this)(G_OBJECT(transceiver)); }
 };
 
 typedef
@@ -78,23 +61,3 @@ typedef
     std::unique_ptr<
         GstBuffer,
         GstUnref> GstBufferPtr;
-typedef
-    std::unique_ptr<
-        GstSDPMessage,
-        GstUnref> GstSDPMessagePtr;
-typedef
-    std::unique_ptr<
-        GstSDPMedia,
-        GstUnref> GstSDPMediaPtr;
-typedef
-    std::unique_ptr<
-        GstPromise,
-        GstUnref> GstPromisePtr;
-typedef
-    std::unique_ptr<
-        GstWebRTCSessionDescription,
-        GstUnref> GstWebRTCSessionDescriptionPtr;
-typedef
-    std::unique_ptr<
-        GstWebRTCRTPTransceiver,
-        GstUnref> GstWebRTCRTPTransceiverPtr;
