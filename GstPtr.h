@@ -7,30 +7,29 @@
 
 struct GstUnref
 {
-    void operator() (GObject* object)
+    void operator() (GstObject* object)
         { gst_object_unref(object); }
 
     void operator() (GstBus* bus)
-        { (*this)(G_OBJECT(bus)); }
+        { (*this)(GST_OBJECT(bus)); }
 
     void operator() (GstCaps* caps)
         { gst_caps_unref(caps); }
 
     void operator() (GstClock* clock)
-        { (*this)(G_OBJECT(clock)); }
+        { (*this)(GST_OBJECT(clock)); }
 
     void operator() (GstElement* element)
-        { (*this)(G_OBJECT(element)); }
+        { (*this)(GST_OBJECT(element)); }
 
     void operator() (GstPad* pad)
-        { (*this)(G_OBJECT(pad)); }
+        { (*this)(GST_OBJECT(pad)); }
 
     void operator() (GstSample* sample)
         { gst_sample_unref(sample); }
 
     void operator() (GstBuffer* buffer)
         { gst_buffer_unref(buffer); }
-
 };
 
 typedef

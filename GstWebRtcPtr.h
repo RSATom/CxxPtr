@@ -10,7 +10,7 @@
 
 struct GstWebRtcUnref
 {
-    void operator() (GObject* object)
+    void operator() (GstObject* object)
         { gst_object_unref(object); }
 
     void operator() (GstSDPMessage* sdp)
@@ -26,7 +26,7 @@ struct GstWebRtcUnref
         { gst_webrtc_session_description_free(description); }
 
     void operator() (GstWebRTCRTPTransceiver* transceiver)
-        { (*this)(G_OBJECT(transceiver)); }
+        { (*this)(GST_OBJECT(transceiver)); }
 };
 
 typedef
