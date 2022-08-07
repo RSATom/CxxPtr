@@ -34,6 +34,10 @@ struct GstUnref
 
 typedef
     std::unique_ptr<
+        GstObject,
+        GstUnref> GstObjectPtr;
+typedef
+    std::unique_ptr<
         GstBus,
         GstUnref> GstBusPtr;
 typedef
