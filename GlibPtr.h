@@ -48,6 +48,12 @@ struct GlibUnref
     void operator() (GUri* uri)
         { g_uri_unref(uri); }
 #endif
+
+    void operator() (GCancellable* task)
+        { (*this)(G_OBJECT(task)); }
+
+    void operator() (GTask* task)
+        { (*this)(G_OBJECT(task)); }
 };
 
 typedef
@@ -97,6 +103,15 @@ typedef
         GUri,
         GlibUnref> GUriPtr;
 #endif
+
+typedef
+    std::unique_ptr<
+        GCancellable,
+        GlibUnref> GCancellablePtr;
+typedef
+    std::unique_ptr<
+        GTask,
+        GlibUnref> GTaskPtr;
 
 
 struct GObjectWeakRef
