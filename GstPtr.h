@@ -13,6 +13,9 @@ struct GstUnref
     void operator() (GstBus* bus)
         { (*this)(GST_OBJECT(bus)); }
 
+    void operator() (GstMessage* message)
+        { gst_message_unref(message); }
+
     void operator() (GstCaps* caps)
         { gst_caps_unref(caps); }
 
@@ -40,6 +43,10 @@ typedef
     std::unique_ptr<
         GstBus,
         GstUnref> GstBusPtr;
+typedef
+    std::unique_ptr<
+        GstMessage,
+        GstUnref> GstMessagePtr;
 typedef
     std::unique_ptr<
         GstCaps,
