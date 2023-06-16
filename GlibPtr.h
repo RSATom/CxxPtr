@@ -9,9 +9,6 @@
     #include <glib/guri.h>
 #endif
 
-#include <gio/gio.h>
-
-
 struct GlibUnref
 {
     void operator() (GError* error)
@@ -35,12 +32,6 @@ struct GlibUnref
     void operator() (gchar* str)
         { g_free(str); }
 
-    void operator() (GTlsInteraction* interaction)
-        { g_object_unref(interaction); }
-
-    void operator() (GTlsCertificate* certificate)
-        { g_object_unref(certificate); }
-
     void operator() (GTimer* timer)
         { g_timer_destroy(timer); }
 
@@ -48,12 +39,6 @@ struct GlibUnref
     void operator() (GUri* uri)
         { g_uri_unref(uri); }
 #endif
-
-    void operator() (GCancellable* task)
-        { (*this)(G_OBJECT(task)); }
-
-    void operator() (GTask* task)
-        { (*this)(G_OBJECT(task)); }
 };
 
 typedef
@@ -86,14 +71,6 @@ typedef
         GlibUnref> GCharPtr;
 typedef
     std::unique_ptr<
-        GTlsInteraction,
-        GlibUnref> GTlsInteractionPtr;
-typedef
-    std::unique_ptr<
-        GTlsCertificate,
-        GlibUnref> GTlsCertificatePtr;
-typedef
-    std::unique_ptr<
         GTimer,
         GlibUnref> GTimerPtr;
 
@@ -103,15 +80,6 @@ typedef
         GUri,
         GlibUnref> GUriPtr;
 #endif
-
-typedef
-    std::unique_ptr<
-        GCancellable,
-        GlibUnref> GCancellablePtr;
-typedef
-    std::unique_ptr<
-        GTask,
-        GlibUnref> GTaskPtr;
 
 
 struct GObjectWeakRef
