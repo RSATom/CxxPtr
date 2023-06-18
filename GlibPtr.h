@@ -39,6 +39,9 @@ struct GlibUnref
     void operator() (GUri* uri)
         { g_uri_unref(uri); }
 #endif
+
+    void operator() (GDateTime* dateTime)
+        { g_date_time_unref(dateTime); }
 };
 
 typedef
@@ -80,6 +83,11 @@ typedef
         GUri,
         GlibUnref> GUriPtr;
 #endif
+
+typedef
+    std::unique_ptr<
+        GDateTime,
+        GlibUnref> GDateTimePtr;
 
 
 struct GObjectWeakRef
